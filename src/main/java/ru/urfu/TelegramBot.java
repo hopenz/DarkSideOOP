@@ -13,13 +13,33 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
  */
 public class TelegramBot extends TelegramLongPollingBot {
 
+    /**
+     * имя тг бота
+     */
     private final String telegramBotName;
 
-    public TelegramBot(String telegramBotName, String token) {
+    /**
+     * Поле обработчика сообщений
+     */
+    private MessageHandler messageHandler;
+
+    /**
+     * Конструктор для создания экземпляра класса TelegramBot
+     *
+     * @param telegramBotName имя телеграм бота
+     * @param token           токен телеграм бота
+     * @param messageHandler  обработчик сообщений
+     */
+    public TelegramBot(String telegramBotName, String token, MessageHandler messageHandler) {
         super(token);
         this.telegramBotName = telegramBotName;
+        this.messageHandler = messageHandler;
     }
 
+    /**
+     * Метод, который запуск работу бота и выводит соответствующее сообщение
+     * В противном случае - выводи сообщение о неудачном старте
+     */
     public void start() {
         try {
             TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
@@ -30,19 +50,26 @@ public class TelegramBot extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Метод, который обрабатывает обновление от телеграма
+     *
+     * @param update обновление, которое пришло от телеграма
+     */
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
             Message updateMessage = update.getMessage();
             Long chatId = updateMessage.getChatId();
             String messageFromUser = updateMessage.getText();
-            // TODO обработайте сообщение от пользователя (messageFromUser)
+            String answerMessage = messageHandler.changeMessage(messageFromUser);
+            sendMessage(chatId.toString(), answerMessage);
         }
     }
 
     /**
      * Отправить сообщение
-     * @param chatId идентификатор чата
+     *
+     * @param chatId  идентификатор чата
      * @param message текст сообщения
      */
     public void sendMessage(String chatId, String message) {
@@ -57,6 +84,11 @@ public class TelegramBot extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * метод, который возвращает имя телеграм бота
+     *
+     * @return имя тг бота
+     */
     @Override
     public String getBotUsername() {
         return telegramBotName;
