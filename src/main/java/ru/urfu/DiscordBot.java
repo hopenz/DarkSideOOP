@@ -12,8 +12,14 @@ import discord4j.core.object.entity.channel.MessageChannel;
  */
 public class DiscordBot {
 
+    /**
+     * токен бота
+     */
     private final String token;
 
+    /**
+     * клиет для взаимодействия с дискордом
+     */
     private GatewayDiscordClient client;
 
     /**
@@ -21,11 +27,22 @@ public class DiscordBot {
      */
     private MessageHandler messageHandler;
 
+
+    /**
+     * конструктор для создания экземпляра класса дискордБот
+     *
+     * @param token          токен бота
+     * @param messageHandler обработчик сообщений
+     */
     public DiscordBot(String token, MessageHandler messageHandler) {
         this.token = token;
         this.messageHandler = messageHandler;
     }
 
+    /**
+     * метод, который запускает бота и выводит соответветствующее сообщение
+     * В противном случае выводит сообщение о неудачном запуске
+     */
     public void start() {
         client = DiscordClient.create(token).login().block();
         if (client == null) {
@@ -41,7 +58,7 @@ public class DiscordBot {
                         String channelId = eventMessage.getChannelId().asString();
                         String messageFromUser = eventMessage.getContent();
                         String answerMessage = messageHandler.changeMessage(messageFromUser);
-                        sendMessage(channelId,answerMessage);
+                        sendMessage(channelId, answerMessage);
                     }
                 });
         System.out.println("Discord бот запущен");
@@ -50,7 +67,8 @@ public class DiscordBot {
 
     /**
      * Отправить сообщение
-     * @param chatId идентификатор чата
+     *
+     * @param chatId  идентификатор чата
      * @param message текст сообщения
      */
     public void sendMessage(String chatId, String message) {

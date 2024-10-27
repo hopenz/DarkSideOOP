@@ -4,10 +4,18 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Тестирования класса MessageHandler
+ */
 public class MessageHandlerTest {
 
+    /**
+     * Тест, в котором проверяется метод преобразования строки в нужную нам
+     * то есть в "Ваше сообщение: <сообщение>
+     * Тест успешный - когда строки идентичны
+     */
     @Test
-    public void testMessageHandler(){
+    public void testMessageHandler() {
         MessageHandler messageHandler = new MessageHandler();
         String testMessage = messageHandler.changeMessage("Да-да, я работаю :D");
 

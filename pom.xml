@@ -15,7 +15,7 @@
 
         <telegrambots.version>6.9.7.1</telegrambots.version>
         <discord4j.version>3.2.6</discord4j.version>
-        <!-- Самая новая версия commons codec-->
+        <!-- Самая новая версия commons codec на момент выполнения задания)-->
         <commons.codec.version>1.17.1</commons.codec.version>
         <!-- Эта библиотека содержит в себе другие библиотеки, где есть уязвимости-->
         <reatc.netty.version>1.1.23</reatc.netty.version>
@@ -37,6 +37,7 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
